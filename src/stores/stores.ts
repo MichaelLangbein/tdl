@@ -1,9 +1,6 @@
-import type { Task } from 'src/logic/TaskService';
+import { TaskService, type Task } from 'src/logic/TaskService';
 import { writable, readable } from 'svelte/store';
 
+const ts = new TaskService();
 
-
-export const currentTask = writable<Task>({
-    title: 'root',
-    body: ''
-});
+export const db = readable(ts);

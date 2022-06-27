@@ -1,13 +1,12 @@
 <script>
-    import { currentTask } from "../stores/stores";
+    import { db } from "../stores/stores";
 
+    const d = $db;
+    $: ct = d.getRoot();
 
-    let ct = $currentTask;
 </script>
 
 <div>
     <h2>{ct.title}</h2>
-    <textarea name="" id="" cols="30" rows="10">
-        {ct.body}
-    </textarea>
+    <input type="text" bind:value={ct.body}>
 </div>

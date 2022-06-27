@@ -11,10 +11,14 @@ export function sleep(timeMs: number): Promise<boolean> {
 }
 
 
-export async function repeatUntil<T>(action: () => Promise<T>, predicate: (result: T) => boolean) {
+export async function repeatUntil<T>(
+    action: () => Promise<T>,
+    predicate: (result: T) => boolean): Promise<T> {
+
     let result = await action();
     while (!predicate(result)) {
         result = await action();
     }
     return result;
 }
+
