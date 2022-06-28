@@ -12,7 +12,7 @@ export default function UserControl() {
       dispatch(login("pass123"));
     }
     function doLogout() {
-      dispatch(logout());
+      dispatch(logout({}));
     }
 
     return (
