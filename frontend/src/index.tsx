@@ -8,9 +8,9 @@ import { store } from './state/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import App from './routes/App';
 import TaskView from './routes/TaskView';
 import CalendarView from './routes/CalendarView';
+import Container from './routes/Container';
 
 
 
@@ -21,11 +21,12 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="tasks" element={<TaskView />} />
-          <Route path="calendar" element={<CalendarView />} />
-        </Routes>
+        <Container>
+          <Routes>
+            <Route path="/" element={<TaskView />} />
+            <Route path="calendar" element={<CalendarView />} />
+          </Routes>
+        </Container>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
