@@ -9,8 +9,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import App from './routes/App';
-import UserControl from './routes/UserControl';
-import CountControl from './routes/CountControl';
+import TaskView from './routes/TaskView';
+import CalendarView from './routes/CalendarView';
 
 
 
@@ -23,8 +23,8 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="user" element={<UserControl />} />
-          <Route path="count" element={<CountControl />} />
+          <Route path="tasks" element={<TaskView />} />
+          <Route path="calendar" element={<CalendarView />} />
         </Routes>
       </BrowserRouter>
     </Provider>
