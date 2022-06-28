@@ -1,10 +1,40 @@
-import express, { Express, Request, Response } from 'express';
+import express from 'express';
+import { TaskService } from './logic/TaskService';
 
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Simple express server');
+const ts = new TaskService();
+
+app.get('/root', (req, res) => {
+  const root = ts.getRoot();
+  res.send(root);
+});
+
+app.get('/tree/:id', (req, res) => {
+  const id = +req.params.id;
+  const tree = ts.getTree(id);
+  res.send(tree);
+});
+
+app.post('/task/:id', (req, res) => {
+  const id = +req.params.id;
+  const newTask = req.body;
+  const success = ts.updateTask(id, newTask);
+  res.send(success);
+});
+
+app.post('/task/:id/addChild', (req, res) => {
+  const id = +req.params.id;
+  const newTask = req.body;
+  const success = ts.addChild(id, newTask);
+  res.send(success);
+});
+
+app.delete('/task/:id', (req, res) => {
+  const id = +req.params.id;
+  const success = ts.delete(id);
+  res.send(success);
 });
 
 app.listen(3001, () => {

@@ -1,5 +1,4 @@
-import { toPromise } from './async';
-import { Tree } from './tree';
+import { findInTree, Tree } from './tree';
 
 
 export interface Task {
@@ -15,8 +14,41 @@ export class TaskService {
         body: ''
     });
 
-    public getRoot(): Promise<Task> {
-        return toPromise(this.tasks.getData());
+    public getRoot(): Tree<Task> {
+        return this.tasks;
     }
+
+    public getTree(id: number): Tree<Task> | false {
+        const tree = findInTree(this.tasks, (tr) => tr.getId() === id);
+        return tree;
+    }
+
+    public updateTask(id: number, task: Task) {
+        const tree = findInTree(this.tasks, (tr) => tr.getId() === id);
+        if (tree) {
+            tree.setData(task);
+            return true;
+        }
+        return false;
+    }
+
+    public addChild(id: number, task: Task) {
+        const tree = findInTree(this.tasks, (tr) => tr.getId() === id);
+        if (tree) {
+            tree.addChild(task);
+            return true;
+        }
+        return false;
+    }
+
+    public delete(id: number) {
+        const parent = findInTree(this.tasks, (tr) => tr.getChildren().map(c => c.getId()).includes(id));
+        if (parent) {
+            parent.removeChild(id);
+            return true;
+        }
+        return false;
+    }
+
 
 }
