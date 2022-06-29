@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../state/store';
 import { loadData } from '../state/TaskTree';
@@ -10,7 +9,7 @@ export default function TaskView() {
     useEffect(() => {
         console.log('dispatching loadData ...')
         dispatch(loadData());
-    }, []);
+    }, [dispatch]);
 
     return (
         <>

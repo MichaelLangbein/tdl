@@ -34,16 +34,16 @@ const slice = createSlice({
     extraReducers: {
         [loadData.pending.toString()]: (state, action) => {
             return {
-                ... state,
+                ...state,
                 activeTask: {
-                    ... state.activeTask,
+                    ...state.activeTask,
                     title: '...'
                 }
             }
         },
         [loadData.fulfilled.toString()]: (state, action) => {
             return {
-                ... state,
+                ...state,
                 tree: action.payload,
                 activeTask: action.payload.data
             }
