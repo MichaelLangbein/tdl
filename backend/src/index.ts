@@ -1,8 +1,11 @@
 import express from 'express';
 import { TaskService } from './logic/TaskService';
+import cors from 'cors';
 
-
+const port = 3001;
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 const ts = new TaskService();
 
@@ -40,6 +43,6 @@ app.put('/task/:id/move/:toId', (req, res) => {
   res.send(success);
 })
 
-app.listen(3001, () => {
-  console.log(`[server]: Server is running at https://localhost:3001`);
+app.listen(port, () => {
+  console.log(`[server]: Server is running at http://localhost:${port}`);
 });

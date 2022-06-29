@@ -1,4 +1,4 @@
-import { Axios } from "axios";
+import axios from "axios";
 
 
 export interface Task {
@@ -16,13 +16,13 @@ export interface Tree<T> {
 
 export class BackendClient {
 
-    private httpClient: Axios = new Axios();
+    private httpClient = axios.create({
+        timeout: 100
+    });
     constructor(private backendUrl: string) {}
 
     async getTree(id = 0): Promise<Tree<Task>> {
-        console.log('getting tree ', id)
         const result = await this.httpClient.get(`${this.backendUrl}/tree/${id}`);
-        console.log('got result: ', result.data);
         return result.data;
     }
 
