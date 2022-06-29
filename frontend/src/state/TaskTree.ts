@@ -1,13 +1,13 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BackendClient, Task, Tree } from "../svc/backendClient";
-import { createReducer } from "./reduxUtils";
 
 
 
 const dbClient = new BackendClient('http://localhost:3001');
 
 const rootTask: Task = {
-    title: '... loading ...',
-    description: '... loading ...'
+    title: '',
+    description: ''
 }
 
 const tree: Tree<Task> = {
@@ -22,27 +22,33 @@ const initialState = {
 };
 
 
+export const loadData = createAsyncThunk('TaskTree/loadData', async (args, api) => {
+    return await dbClient.getTree();
+});
 
-const {reducer, actions, loaderActions} = createReducer({
+
+const slice = createSlice({
     name: 'TaskTree',
     initialState: initialState,
-    reducers: {
-        sync: {},
-        async: {
-            'loadData': {
-                loader: async () => {
-                    console.log('calling db-client ...')
-                    return await dbClient.getTree();
-                },
-                resolvedReducer: (state, action: any) => {
-                    const tree = action.payload;
-                    state.tree = tree;
-                    state.activeTask = tree;  
+    reducers: {},
+    extraReducers: {
+        [loadData.pending.toString()]: (state, action) => {
+            return {
+                ... state,
+                activeTask: {
+                    ... state.activeTask,
+                    title: '...'
                 }
+            }
+        },
+        [loadData.fulfilled.toString()]: (state, action) => {
+            return {
+                ... state,
+                tree: action.payload,
+                activeTask: action.payload.data
             }
         }
     }
 });
 
-export const taskTreeReducer = reducer;
-export const { loadData } = loaderActions;
+export const taskTreeReducer = slice.reducer;

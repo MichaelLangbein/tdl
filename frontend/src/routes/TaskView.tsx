@@ -9,7 +9,7 @@ export default function TaskView() {
 
     useEffect(() => {
         console.log('dispatching loadData ...')
-        dispatch(loadData({}));
+        dispatch(loadData());
     }, []);
 
     return (
