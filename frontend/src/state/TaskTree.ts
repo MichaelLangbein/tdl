@@ -6,11 +6,12 @@ import { createReducer } from "./reduxUtils";
 const dbClient = new BackendClient('http://localhost:3001');
 
 const rootTask: Task = {
-    title: 'root',
-    description: ''
+    title: '... loading ...',
+    description: '... loading ...'
 }
 
 const tree: Tree<Task> = {
+    id: 0,
     data: rootTask,
     children: []
 }
@@ -29,7 +30,10 @@ const {reducer, actions, loaderActions} = createReducer({
         sync: {},
         async: {
             'loadData': {
-                loader: async () => dbClient.getTree(),
+                loader: async () => {
+                    console.log('calling db-client ...')
+                    return await dbClient.getTree();
+                },
                 resolvedReducer: (state, action: any) => {
                     const tree = action.payload;
                     state.tree = tree;

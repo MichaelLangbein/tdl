@@ -30,6 +30,10 @@ export class Tree<T> {
         this.children.push(new Tree<T>(child));
     }
 
+    addChildTree(child: Tree<T>) {
+        this.children.push(child);
+    }
+
     removeChild(childId: number) {
         this.children = this.children.filter(c => c.getId() !== childId);
     }

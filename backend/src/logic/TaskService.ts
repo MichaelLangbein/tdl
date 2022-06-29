@@ -42,7 +42,7 @@ export class TaskService {
     }
 
     public delete(id: number) {
-        const parent = findInTree(this.tasks, (tr) => tr.getChildren().map(c => c.getId()).includes(id));
+        const parent = this.getParent(id);
         if (parent) {
             parent.removeChild(id);
             return true;
@@ -50,5 +50,18 @@ export class TaskService {
         return false;
     }
 
+    public getParent(id: number) {
+        const parent = findInTree(this.tasks, (tr) => tr.getChildren().map(c => c.getId()).includes(id));
+        return parent;
+    }
 
+    move(taskId: number, newParentId: number) {
+        const task = this.getTree(taskId);
+        const oldParent = this.getParent(taskId);
+        const newParent = this.getTree(newParentId);
+        if (oldParent && newParent && task) {
+            oldParent.removeChild(taskId);
+            newParent.addChildTree(task);
+        }
+    }
 }
