@@ -46,4 +46,8 @@ export class BackendClient {
         return this.getTree();
     }
 
+    setTree(tree: Tree<Task>): any {
+        throw new Error("Method not implemented.");
+    }
+
 }

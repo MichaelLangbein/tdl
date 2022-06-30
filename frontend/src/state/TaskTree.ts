@@ -6,8 +6,8 @@ import { BackendClient, Task, Tree } from "../svc/backendClient";
 const dbClient = new BackendClient('http://localhost:3001');
 
 const rootTask: Task = {
-    title: '',
-    description: ''
+    title: 'title',
+    description: 'description'
 }
 
 const tree: Tree<Task> = {
@@ -22,8 +22,12 @@ const initialState = {
 };
 
 
-export const loadData = createAsyncThunk('TaskTree/loadData', async (args, api) => {
+export const downloadData = createAsyncThunk('TaskTree/downloadData', async (args, api) => {
     return await dbClient.getTree();
+});
+
+export const uploadData = createAsyncThunk('TaskTree/uploadData', async (tree: Tree<Task>, api) => {
+    return await dbClient.setTree(tree);
 });
 
 
@@ -31,7 +35,9 @@ const slice = createSlice({
     name: 'TaskTree',
     initialState: initialState,
     reducers: {
+        
         "taskEdit": (state, action) => {
+            console.log(action.payload)
             return {
                 ...state,
                 activeTask: action.payload
@@ -39,7 +45,7 @@ const slice = createSlice({
         }
     },
     extraReducers: {
-        [loadData.pending.toString()]: (state, action) => {
+        [downloadData.pending.toString()]: (state, action) => {
             return {
                 ...state,
                 activeTask: {
@@ -48,12 +54,18 @@ const slice = createSlice({
                 }
             }
         },
-        [loadData.fulfilled.toString()]: (state, action) => {
+        [downloadData.fulfilled.toString()]: (state, action) => {
             return {
                 ...state,
                 tree: action.payload,
                 activeTask: action.payload.data
             }
+        },
+        [uploadData.pending.toString()]: (state, action) => {
+            return state;
+        },
+        [uploadData.fulfilled.toString()]: (state, action) => {
+            return state;
         }
     }
 });
