@@ -64,4 +64,8 @@ export class TaskService {
             newParent.addChildTree(task);
         }
     }
+
+    mergeTrees(userTree: Tree<Task>) {
+        throw new Error('Method not implemented.');
+    }
 }

@@ -1,21 +1,35 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../state/store';
-import { loadData } from '../state/TaskTree';
+import React, { ChangeEvent } from 'react';
+import { useAppDispatch } from '../state/store';
+import { taskEdit } from '../state/TaskTree';
+import { useTaskData } from '../svc/hooks';
 
 export default function TaskView() {
-    const taskState = useAppSelector(state => state.taskTree);
+    const taskState = useTaskData();
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        console.log('dispatching loadData ...')
-        dispatch(loadData());
-    }, [dispatch]);
+    function setTitle(evt: ChangeEvent<HTMLInputElement>) {
+        const task = taskState.activeTask;
+        const newTask = {
+            ...task,
+            title: evt.target.value
+        }
+        dispatch(taskEdit(newTask));
+    }
+    function setBody(evt: ChangeEvent<HTMLInputElement>) {
+        const task = taskState.activeTask;
+        const newTask = {
+            ...task,
+            description: evt.target.value
+        };
+        dispatch(taskEdit(newTask));
+    }
+
 
     return (
         <>
             <h2>Task view</h2>
-            <h3>{taskState.activeTask.title}</h3>
-            <p>{taskState.activeTask.description}</p>
+            <input type="text" onChange={setTitle} value={taskState.activeTask.title} ></input>
+            <input type="text" onChange={setBody} value={taskState.activeTask.description} ></input>
         </>
     );
 }

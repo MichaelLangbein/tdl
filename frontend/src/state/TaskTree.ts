@@ -30,7 +30,14 @@ export const loadData = createAsyncThunk('TaskTree/loadData', async (args, api) 
 const slice = createSlice({
     name: 'TaskTree',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        "taskEdit": (state, action) => {
+            return {
+                ...state,
+                activeTask: action.payload
+            }
+        }
+    },
     extraReducers: {
         [loadData.pending.toString()]: (state, action) => {
             return {
@@ -52,3 +59,4 @@ const slice = createSlice({
 });
 
 export const taskTreeReducer = slice.reducer;
+export const { taskEdit } = slice.actions;

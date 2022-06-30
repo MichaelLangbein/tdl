@@ -41,7 +41,13 @@ app.put('/task/:id/move/:toId', (req, res) => {
   const newParentId = +req.params.toId;
   const success = ts.move(taskId, newParentId);
   res.send(success);
-})
+});
+
+app.post('/diffTrees', (req, res) => {
+  const userTree = req.body;
+  const mergedTree = ts.mergeTrees(userTree);
+  res.send(mergedTree);
+});
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
